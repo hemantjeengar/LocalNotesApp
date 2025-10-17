@@ -1,4 +1,4 @@
-package com.example.localnotesapp
+package com.example.localnotesapp.feature_note.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,28 +20,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             LocalNotesAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LocalNotesAppTheme {
-        Greeting("Android")
     }
 }
