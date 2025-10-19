@@ -44,7 +44,7 @@ class NotesViewModel @Inject constructor(
                     return
                 }
 
-
+                getNotes(event.noteOrder)
             }
             NotesEvent.RestoreNode -> {
                 viewModelScope.launch {

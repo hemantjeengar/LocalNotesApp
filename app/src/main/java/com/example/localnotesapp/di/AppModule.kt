@@ -7,6 +7,7 @@ import com.example.localnotesapp.feature_note.data.repository.NoteRepositoryImpl
 import com.example.localnotesapp.feature_note.domain.repository.NoteRepository
 import com.example.localnotesapp.feature_note.domain.use_cases.AddNote
 import com.example.localnotesapp.feature_note.domain.use_cases.DeleteNote
+import com.example.localnotesapp.feature_note.domain.use_cases.GetNote
 import com.example.localnotesapp.feature_note.domain.use_cases.GetNotes
 import com.example.localnotesapp.feature_note.domain.use_cases.NoteUseCases
 import dagger.Module
@@ -40,6 +41,7 @@ object AppModule {
     fun provideNoteUseCases(repository: NoteRepository) : NoteUseCases {
         return NoteUseCases(
             addNote = AddNote(repository),
+            getNote = GetNote(repository),
             getNotes = GetNotes(repository),
             deleteNote  = DeleteNote(repository)
         )
