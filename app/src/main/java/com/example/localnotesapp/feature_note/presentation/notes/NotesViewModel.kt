@@ -1,7 +1,5 @@
 package com.example.localnotesapp.feature_note.presentation.notes
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.localnotesapp.feature_note.domain.model.Note
@@ -10,6 +8,8 @@ import com.example.localnotesapp.feature_note.domain.util.NoteOrder
 import com.example.localnotesapp.feature_note.domain.util.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -20,8 +20,8 @@ class NotesViewModel @Inject constructor(
     private val noteUseCase : NoteUseCases,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(NotesState())
-    val state : State<NotesState> = _state
+    private val _state = MutableStateFlow(NotesState())
+    val state : StateFlow<NotesState> = _state
 
     private var recentlyDeletedNote : Note? = null
     private var getNotesJob : Job? = null
@@ -60,7 +60,7 @@ class NotesViewModel @Inject constructor(
         }
     }
 
-    fun getNotes(noteOrder : NoteOrder) {
+    private fun getNotes(noteOrder : NoteOrder) {
         getNotesJob?.cancel()
         noteUseCase.getNotes(noteOrder)
             .onEach { notes ->

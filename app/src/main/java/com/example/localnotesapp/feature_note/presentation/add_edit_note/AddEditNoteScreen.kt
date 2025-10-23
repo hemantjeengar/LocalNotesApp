@@ -27,6 +27,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -37,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.localnotesapp.feature_note.domain.model.Note
 import com.example.localnotesapp.feature_note.presentation.add_edit_note.components.TransparentHintTextField
@@ -49,14 +51,15 @@ fun AddEditNoteScreen(
     noteColor : Int,
     viewModel : AddEditNoteViewModel = hiltViewModel()
 ) {
-    val titleState = viewModel.noteTitle.value
-    val contentState = viewModel.noteContent.value
+    val titleState by viewModel.noteTitle.collectAsStateWithLifecycle()
+    val contentState by viewModel.noteContent.collectAsStateWithLifecycle()
+    val colorState by viewModel.noteColor.collectAsStateWithLifecycle()
 
     val snackBarHostState = remember { SnackbarHostState() }
 
     val noteBackgroundAnimatable = remember {
         Animatable(
-            Color(if (noteColor != -1) noteColor else viewModel.noteColor.value)
+            Color(if (noteColor != -1) noteColor else colorState)
         )
     }
 
@@ -117,7 +120,7 @@ fun AddEditNoteScreen(
                                 .background(color)
                                 .border(
                                     width = 3.dp,
-                                    color = if (viewModel.noteColor.value == colorInt) Color.Black else Color.Transparent,
+                                    color = if (colorState == colorInt) Color.Black else Color.Transparent,
                                     shape = CircleShape
                                 )
                                 .clickable {
